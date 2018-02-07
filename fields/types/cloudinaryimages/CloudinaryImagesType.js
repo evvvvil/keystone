@@ -338,11 +338,16 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 			// File provided - upload it
 			var uploadOptions = getUploadOptions();
 			// NOTE: field.options.publicID has been deprecated (tbc)
-			if (field.options.filenameAsPublicID && value.originalname && typeof value.originalname === 'string') {
+			/*if (field.options.filenameAsPublicID && value.originalname && typeof value.originalname === 'string') {
 				uploadOptions = assign({}, uploadOptions, {
 					public_id: value.originalname.substring(0, value.originalname.lastIndexOf('.')),
 				});
-			}
+			}*/
+			var timestamp = new Date().getTime();
+			uploadOptions = assign({}, uploadOptions, {
+				
+        		public_id: keystone.get('name')+item.slug+"-"+field.path+"-"+timestamp,
+      		});
 			// TODO: implement autoCleanup; should delete existing images before uploading
 			cloudinary.uploader.upload(value.path, function (result) {
 				if (result.error) {

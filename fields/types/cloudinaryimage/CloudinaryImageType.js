@@ -9,6 +9,7 @@ var sanitize = require('sanitize-filename');
 var util = require('util');
 var utils = require('keystone-utils');
 
+
 /*
 var CLOUDINARY_FIELDS = ['public_id', 'version', 'signature', 'format', 'resource_type', 'url', 'width', 'height', 'secure_url'];
 */
@@ -471,9 +472,14 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 				// Add context filename to store in Cloudinary
 				uploadOptions.context = `filename=${filename}`;
 			}
+
+uploadOptions.public_id=keystone.get('name')+"-"+item.slug+"-"+field.path;
+
+
+
 			// TODO: implement autoCleanup; should delete existing images before uploading
 			cloudinary.uploader.upload(uploadedFile.path, function (result) {
-				console.log(result);
+				//console.log(result);
 				if (result.error) {
 					return callback(result.error);
 				} else {
