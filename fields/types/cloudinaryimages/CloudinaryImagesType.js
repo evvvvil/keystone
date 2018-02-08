@@ -4,7 +4,7 @@ var async = require('async');
 var FieldType = require('../Type');
 var keystone = require('../../../');
 var util = require('util');
-
+var keystoneName=keystone.get('name');
 function getEmptyValue () {
 	return {
 		public_id: '',
@@ -275,8 +275,11 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 			uploadOptions.tags.push(tagPrefix + 'dev');
 		}
 		var folder = field.getFolder();
+		
 		if (folder) {
-			uploadOptions.folder = folder;
+			uploadOptions.folder = keystoneName+"/"+item.slug+"/"+folder;
+		}else{
+			uploadOptions.folder = keystoneName+"/"+item.slug+"/"+field.path;	
 		}
 		cachedUploadOptions = uploadOptions;
 		return uploadOptions;
@@ -344,9 +347,10 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 				});
 			}*/
 			var timestamp = new Date().getTime();
+
 			uploadOptions = assign({}, uploadOptions, {
 				
-        		public_id: keystone.get('name')+item.slug+"-"+field.path+"-"+timestamp,
+        		public_id: keystoneName+"-"+item.slug+"-"+field.path+"-"+timestamp,
       		});
 			// TODO: implement autoCleanup; should delete existing images before uploading
 			cloudinary.uploader.upload(value.path, function (result) {

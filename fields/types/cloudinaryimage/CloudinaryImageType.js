@@ -456,10 +456,14 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		if (keystone.get('env') !== 'production') {
 			uploadOptions.tags.push(tagPrefix + 'dev');
 		}
-		var folder = this.getFolder();
+		var folder = this.getFolder();		
+		var keystoneName=keystone.get('name');
 		if (folder) {
-			uploadOptions.folder = folder;
+			uploadOptions.folder = keystoneName+"/"+item.slug+"/"+folder;
+		}else{
+			uploadOptions.folder = keystoneName+"/"+item.slug;	
 		}
+				
 		this.getFilename(uploadedFile, function (err, filename) {
 			if (err) return callback(err);
 			// If an undefined filename is returned, Cloudinary will automatically generate a unique
@@ -473,7 +477,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 				uploadOptions.context = `filename=${filename}`;
 			}
 
-uploadOptions.public_id=keystone.get('name')+"-"+item.slug+"-"+field.path;
+			uploadOptions.public_id=keystoneName+"-"+item.slug+"-"+field.path;
 
 
 
