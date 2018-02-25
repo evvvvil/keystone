@@ -458,6 +458,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		}
 		var folder = this.getFolder();		
 		var keystoneName=keystone.get('name');
+		var timestamp = new Date().getTime();
 		if (folder) {
 			uploadOptions.folder = keystoneName+"/"+item.slug+"/"+folder;
 		}else{
@@ -476,7 +477,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 				// Add context filename to store in Cloudinary
 				uploadOptions.context = `filename=${filename}`;
 			}
-			var timestamp = new Date().getTime();
+			
 			uploadOptions.public_id=keystoneName+"-"+item.slug+"-"+field.path+"-"+timestamp;
 
 
