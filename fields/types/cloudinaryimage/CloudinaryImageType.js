@@ -476,8 +476,8 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 				// Add context filename to store in Cloudinary
 				uploadOptions.context = `filename=${filename}`;
 			}
-
-			uploadOptions.public_id=keystoneName+"-"+item.slug+"-"+field.path;
+			var timestamp = new Date().getTime();
+			uploadOptions.public_id=keystoneName+"-"+item.slug+"-"+field.path+"-"+timestamp;
 
 
 
