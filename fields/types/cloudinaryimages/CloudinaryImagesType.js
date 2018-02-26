@@ -312,8 +312,9 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 		return value;
 	});
 	values = _.flatten(values);
-
+	var indexo=0;
 	async.map(values, function (value, next) {
+		indexo++;
 		if (typeof value === 'object' && 'public_id' in value) {
 			// If "autoCleanup" is enabled and the "remove" property is true for "value"
 			// than remove the file and reset the field
@@ -350,7 +351,7 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 
 			uploadOptions = assign({}, uploadOptions, {
 				
-        		public_id: keystoneName+"-"+item.slug+"-"+field.path+"-"+next+"-"+timestamp,
+        		public_id: keystoneName+"-"+item.slug+"-"+field.path+"-"+ (("0" + indexo).slice(-2))+"-"+timestamp,
       		});
 			// TODO: implement autoCleanup; should delete existing images before uploading
 			cloudinary.uploader.upload(value.path, function (result) {
