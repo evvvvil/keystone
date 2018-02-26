@@ -394,7 +394,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 	// Prepare values
 	var value = this.getValueFromData(data);
 	var uploadedFile;
-var index="";
+
 	// Providing the string "select:[public_id]" updates the field from cloudinary
 	if (typeof value === 'string' && value.substr(0, 7) === 'select:') {
 		cloudinary.api.resources_by_ids([value.substr(7)], function (result) {
@@ -429,8 +429,7 @@ var index="";
 	// data argument or named with the field path / field_upload path + suffix
 	// Base64 data and remote URLs are also accepted as images to upload
 	if (typeof value === 'string' && value.substr(0, 7) === 'upload:') {
-		uploadedFile = files[value.substr(7)];
-		index="-"+value.substr(7);
+		uploadedFile = files[value.substr(7)];		
 	} else if (typeof value === 'string' && /^(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) {
 		uploadedFile = { path: value };
 	} else {
@@ -480,9 +479,7 @@ var index="";
 				uploadOptions.context = `filename=${filename}`;
 			}
 			
-			uploadOptions.public_id=keystoneName+"-"+item.slug+"-"+field.path+index+"-"+timestamp;
-
-
+			uploadOptions.public_id=keystoneName+"-"+item.slug+"-"+field.path+"-"+timestamp;
 
 			// TODO: implement autoCleanup; should delete existing images before uploading
 			cloudinary.uploader.upload(uploadedFile.path, function (result) {

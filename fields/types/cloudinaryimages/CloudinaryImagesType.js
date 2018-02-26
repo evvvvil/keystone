@@ -350,7 +350,7 @@ cloudinaryimages.prototype.updateItem = function (item, data, files, callback) {
 
 			uploadOptions = assign({}, uploadOptions, {
 				
-        		public_id: keystoneName+"-"+item.slug+"-"+field.path+"-"+timestamp,
+        		public_id: keystoneName+"-"+item.slug+"-"+field.path+"-"+next+"-"+timestamp,
       		});
 			// TODO: implement autoCleanup; should delete existing images before uploading
 			cloudinary.uploader.upload(value.path, function (result) {
