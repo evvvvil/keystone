@@ -394,7 +394,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 	// Prepare values
 	var value = this.getValueFromData(data);
 	var uploadedFile;
-
+var index="";
 	// Providing the string "select:[public_id]" updates the field from cloudinary
 	if (typeof value === 'string' && value.substr(0, 7) === 'select:') {
 		cloudinary.api.resources_by_ids([value.substr(7)], function (result) {
@@ -430,6 +430,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 	// Base64 data and remote URLs are also accepted as images to upload
 	if (typeof value === 'string' && value.substr(0, 7) === 'upload:') {
 		uploadedFile = files[value.substr(7)];
+		index="-"+value.substr(7);
 	} else if (typeof value === 'string' && /^(data:[a-z\/]+;base64)|(https?\:\/\/)/.test(value)) {
 		uploadedFile = { path: value };
 	} else {
@@ -459,6 +460,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 		var folder = this.getFolder();		
 		var keystoneName=keystone.get('name');
 		var timestamp = new Date().getTime();
+
 		if (folder) {
 			uploadOptions.folder = keystoneName+"/"+item.slug+"/"+folder;
 		}else{
@@ -478,7 +480,7 @@ cloudinaryimage.prototype.updateItem = function (item, data, files, callback) {
 				uploadOptions.context = `filename=${filename}`;
 			}
 			
-			uploadOptions.public_id=keystoneName+"-"+item.slug+"-"+field.path+"-"+timestamp;
+			uploadOptions.public_id=keystoneName+"-"+item.slug+"-"+field.path+index+"-"+timestamp;
 
 
 
