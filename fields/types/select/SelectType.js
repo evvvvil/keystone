@@ -173,6 +173,18 @@ select.prototype.inputIsValid = function (data, required, item) {
 	}
 };
 
+select.prototype.updateItem = function (item, data, callback) {
+	var value = this.getValueFromData(data);
+	if (value===undefined) value=null;
+	// This is a deliberate type coercion so that numbers from forms play nice
+
+	if (value !== undefined && value != item.get(this.path)) { // eslint-disable-line eqeqeq
+		item.set(this.path, value);
+	}
+
+	process.nextTick(callback);
+};
+
 /**
  * Formats the field value
  */
